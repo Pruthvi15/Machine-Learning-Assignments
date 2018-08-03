@@ -26,6 +26,12 @@ temp1=[ones(m,1) temp1];
 temp2=sigmoid(Theta2*temp1');
 h=temp2;
 [pval,p]=max(h',[],2);
+# This is for predicting 0 as a 10
+for i=1:length(p),
+  if p(i)==10,
+    p(i)=0;
+  endif
+endfor
 
 
 

@@ -66,6 +66,24 @@ J=J+J_reg;
 %               over the training examples if you are implementing it for the 
 %               first time.
 %
+for t = 1:m
+    a1 = [1 X(t, :)];
+    z2 = (Theta1 * a1')';
+    a2 = [1 sigmoid(z2)];
+    z3 = (Theta2 * a2')';
+    a3 = sigmoid(z3);
+    del_3 = (a3 - new_y(t, :))';
+    del_2 = (Theta2' * del_3) .* [1; sigmoidGradient(z2')];
+    del_2 = del_2(2:end);
+    Theta1_grad = Theta1_grad + (del_2 * a1);
+    Theta2_grad = Theta2_grad + (del_3 * a2);
+end
+
+Theta1_grad /=m;
+Theta2_grad /= m;
+
+
+
 % Part 3: Implement regularization with the cost function and gradients.
 %
 %         Hint: You can implement this around the code for
@@ -74,6 +92,9 @@ J=J+J_reg;
 %               and Theta2_grad from Part 2.
 %
 
+Theta1_grad(:, 2:end) +=(lambda / m) * Theta1(:, 2:end);
+Theta2_grad(:, 2:end) +=(lambda / m) * Theta2(:, 2:end);
+grrad=[Theta1_grad(:);Theta2_grad(:)];
 
 
 
